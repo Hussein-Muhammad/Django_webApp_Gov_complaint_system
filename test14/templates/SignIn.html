@@ -1,0 +1,21 @@
+{% extends 'Base.html' %}   <!-- to put every block in its position in the base html -->
+
+{% block title %}Sign In{% endblock %} <!-- tap title -->
+
+{% block body %}
+    <div class="title"><h1>Governmental complaint site</h1></div>
+    <div class="container">
+        <div class='formGroup'>
+            <div class="head"><h5>&nbsp&nbspSign in</h5></div>
+            <form method="post" novalidate>
+                {% csrf_token %} <!-- security token -->
+                {% include 'form.html' %} <!-- add code in form.html -->
+                <button type="submit" class="btn btn-primary">Sign in</button>
+                <!-- button for sign in to make post request -->
+            </form>
+            <div class="card-footer text-muted text-center">
+                Don't have an account? <a href="/">Sign up</a>  <!-- footer contain sign up link -->
+            </div>
+        </div>
+    </div>
+{% endblock %}

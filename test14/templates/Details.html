@@ -1,0 +1,57 @@
+{% extends 'Base.html' %}   <!-- to put every block in its position in the base html -->
+
+{% load widget_tweaks %}    <!-- load widget_tweaks -->
+
+{% block title %}Complaint details{% endblock %}    <!-- tap title -->
+
+{% block body %}
+    {% include 'nav.html' %}    <!-- add navigation bar -->
+    <div class="container">
+        {% for det in details %}    <!-- Get massage in details through for loop -->
+            <div class="massage">
+                <div class="head2">
+                    <h5>{{ det.created_by }} | {{ det.created_at }} | {{ item.per }}</h5>
+                    <!-- add info to massage div -->
+                </div>
+                <p style="padding-left: 1%; margin: inherit">{{ det.message }}</p>  <!-- add massage to massage div -->
+            </div>
+            <br>
+            <br>
+        {% endfor %}
+    </div>
+    {% if item.isSolved == False %} <!-- Check if complaint is solved -->
+        <form class="replay" id="Replay" method="post" novalidate>
+            <!-- send post request and stop the browser validation -->
+            {% csrf_token %} <!-- security token -->
+            <div class="head2">Replay</div>
+            {% for field in form %} <!-- get fields in form(part1) -->
+                <div class="form-group">
+                    {% if form.is_bound %}
+                        {% if field.errors %}   <!-- Check for error -->
+                            {% render_field field class="form-control is-invalid" %} <!-- render field using tweaks  -->
+                            {% for error in field.errors %} <!-- display error massage if error found -->
+                                <div class="invalid-feedback">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            {% render_field field class="form-control is-valid" %}  <!-- render field using tweaks  -->
+                        {% endif %}
+                    {% else %}
+                        {% render_field field class="form-control" %}   <!-- render field using tweaks  -->
+                    {% endif %}
+                    {% if field.help_text %}    <!-- add help text if exist  -->
+                        <h6 class="form-text text-muted">
+                            {{ field.help_text }}
+                        </h6>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <button type="submit" name="Post" href="{% url 'userHome' %}" class="btn btn-primary">Post</button>
+            {% if request.user.is_superuser == True %} <!-- Admin only can post solved  -->
+                <button type="submit" href="{% url 'userHome' %}" name="Solved" class="btn btn-primary">Solved</button>
+            {% endif %}
+            <a class="btn btn-primary" href="{% url 'userHome' %}">Back</a> <!-- Back button for both users -->
+        </form>
+    {% endif %}
+{% endblock %}

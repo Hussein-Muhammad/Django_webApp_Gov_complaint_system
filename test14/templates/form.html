@@ -1,0 +1,60 @@
+{% load widget_tweaks %}
+
+<!-- Same code in Details.html but for the form(new complaint form par1)  -->
+{% if form.non_field_errors %}
+    <div class="alert alert-danger" role="alert">
+        {% for error in form.non_field_errors %}
+            <p{% if forloop.last %} class="mb-0"{% endif %}>{{ error }}</p>
+        {% endfor %}
+    </div>
+{% endif %}
+{% for field in form %}
+    <div class="form-group">
+        <h6 style="margin-left: 3%">{{ field.label_tag }}</h6>
+        {% if form.is_bound %}
+            {% if field.errors %}
+                {% render_field field class="form-control is-invalid" %}
+                {% for error in field.errors %}
+                    <div class="invalid-feedback">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            {% else %}
+                {% render_field field class="form-control is-valid" %}
+            {% endif %}
+        {% else %}
+            {% render_field field class="form-control" %}
+        {% endif %}
+        {% if field.help_text %}
+            <small class="form-text text-muted" style="margin-left: 3%">
+                {{ field.help_text|safe }}
+            </small>
+        {% endif %}
+    </div>
+{% endfor %}
+
+<!-- Same code in Details.html but for the form(new complaint form par2)  -->
+{% for field in form1 %}
+    <div class="form-group">
+        <h6 style="margin-left: 3%">{{ field.label_tag }}</h6>
+        {% if form.is_bound %}
+            {% if field.errors %}
+                {% render_field field class="form-control is-invalid" %}
+                {% for error in field.errors %}
+                    <div class="invalid-feedback">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            {% else %}
+                {% render_field field class="form-control is-valid" %}
+            {% endif %}
+        {% else %}
+            {% render_field field class="form-control" %}
+        {% endif %}
+        {% if field.help_text %}
+            <small class="form-text text-muted" style="margin-left: 3%">
+                {{ field.help_text|safe }}
+            </small>
+        {% endif %}
+    </div>
+{% endfor %}

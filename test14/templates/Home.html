@@ -1,0 +1,91 @@
+{% extends 'Base.html' %} <!-- to put every block in its position in the base html -->
+
+{% block title %}Complaints{% endblock %}   <!-- tap title -->
+
+{% block body %}
+    {% include 'nav.html' %} <!-- add navigation bar -->
+    <div class="container">
+        <p><span style="padding-left: 2%; font-size: 2.5pc; cursor: default; ">Complaints List</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<span
+                id="A" style="color: #9E9E9E" onclick="AlphaSort()">Alphabetic</span>&nbsp&nbsp&nbsp&nbsp<span id="P"
+                                                                                                               style="color: #9E9E9E"
+                                                                                                               onclick="PrioritySort()">Priority</span>&nbsp&nbsp&nbsp&nbsp<span
+                id="D" style="color: white" onclick="DateSort()">Date</span></p> <!-- add sorting buttons to html -->
+        <div id="DateSort" style="display: block; width: 100% ; height: 100%">
+            {% for item in Compliant_list_date %}
+                <!-- Get every complaint in the complaint list and add them to html through for loop -->
+                <div class="complaint"
+                     style="{% if item.isRead == False and not user.is_superuser %}
+                                background-color: #363895;
+                            {% elif user.is_superuser and item.isInProgress %}
+                                background-color: #953c3b;
+                            {% endif %}">
+                    <!-- if complaint not read change the color of container -->
+                    <div class="title_link"><a href="{% url 'details' item.pk %}">{{ item.name }}</a></div>
+                    <!-- add title -->
+                    <div class="des">
+                        {{ item.des }}  <!-- add description -->
+                    </div>
+                    <div class="info">
+                        <p>{{ item.starter }} | {{ item.postDate }} | {% if item.isSolved == True %}
+                            Solved
+                        {% elif item.isInProgress %}
+                            In Progress
+                        {% else %}
+                            Not Started
+                        {% endif %} | {{ item.per }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <!-- Same as the above block but with different sort type -->
+        <div id="AlphaSort" style="display: none;width: 100% ; height: 100%">
+            {% for item in Compliant_list_Alpha %}
+                <div class="complaint"
+                     style="{% if item.isRead == False and not user.is_superuser %}
+                         background-color: #363895;
+                     {% elif user.is_superuser and item.isInProgress %}
+                         background-color: #953c3b;
+                     {% endif %}">
+                    <div class="title_link"><a href="{% url 'details' item.pk %}">{{ item.name }}</a></div>
+                    <div class="des">
+                        {{ item.des }}
+                    </div>
+                    <div class="info">
+                        <p>{{ item.starter }} | {{ item.postDate }} | {% if item.isSolved == True %}
+                            Solved
+                        {% elif item.isInProgress %}
+                            In Progress
+                        {% else %}
+                            Not Started
+                        {% endif %} | {{ item.per }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <!-- Same as the 1st block but with different sort type -->
+        <div id="PrioritySort" style="display: none;width: 100% ; height: 100%">
+            {% for item in Compliant_list_Priority %}
+                <div class="complaint"
+                     style="{% if item.isRead == False and not user.is_superuser %}
+                                background-color: #363895;
+                            {% elif user.is_superuser and item.isInProgress %}
+                                background-color: #953c3b;
+                            {% endif %}">
+                    <div class="title_link"><a href="{% url 'details' item.pk %}">{{ item.name }}</a></div>
+                    <div class="des">
+                        {{ item.des }}
+                    </div>
+                    <div class="info">
+                        <p>{{ item.starter }} | {{ item.postDate }} | {% if item.isSolved == True %}
+                            Solved
+                        {% elif item.isInProgress %}
+                            In Progress
+                        {% else %}
+                            Not Started
+                        {% endif %} | {{ item.per }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %} }

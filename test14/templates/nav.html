@@ -1,0 +1,57 @@
+<!-- navigation bar -->
+<nav class="navbar navbar-expand-sm navbar-dark bg-faded shade">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'userHome' %}">Governmental Complaints</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMenu"
+                aria-controls="mainMenu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainMenu">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    {% if user.is_superuser == False %} {# user is not an admin #}
+                        {% if user.is_superuser == False %}  {# button new only shown in case of homepage#}
+                            <a class="btn btn-primary" href="{% url 'new' %}">New</a>
+                            {# New_Complaint must be shown for user only #}
+                        {% endif %}
+                    {% else %}
+                        {% if user.is_superuser and request.path  == "/adminHome/solved/" %}
+                            <a class="btn btn-primary nav-justified" href="{%  url 'userHome' %}">Unsolved</a>
+                            {# Solved Complaint must be shown for user only #}
+                        {% elif  user.is_superuser %}
+                            <a class="btn btn-primary nav-justified" href="{%  url 'Solved' %}">Solved</a>
+                            {# New_Complaint must be shown for user only #}
+                        {% endif %}
+                    {% endif %}
+                </li>
+                <li class="nav-item">
+                    {% if user.is_superuser == False and request.path  == "/userHome/NotRead/" %}
+                        <!-- if true the button will appear-->
+                        <a class="btn btn-primary nav-justified" href="{% url 'userHome' %}">All</a>
+                        <!-- button for all complaint -->
+                    {% elif user.is_superuser == False %}
+                        <a class="btn btn-primary nav-justified" href="{% url 'NotRead' %}">Not Read</a>
+                        <!-- button for not read complaint -->
+                    {% endif %}
+                </li>
+                <li class="nav-item">
+                    {% if request.path  == "/userHome/InProgress/" %}
+                        <!-- if true the button will appear-->
+                        <a class="btn btn-primary nav-justified" href="{% url 'userHome' %}">Normal View</a>
+                        <!-- button for all complaint -->
+                    {% else %}
+                        <a class="btn btn-primary nav-justified" href="{% url 'InProgress' %}">In Progress</a>
+                        <!-- button for not read complaint -->
+                    {% endif %}
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-primary" href="{% url 'logout' %}">Logout</a> <!-- button for logout -->
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'userHome' %}">{{ user.username }}</a>
+                    <!-- add user name to nav. bar -->
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

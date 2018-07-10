@@ -1,0 +1,20 @@
+{% extends 'Base.html' %}   <!-- to put every block in its position in the base html -->
+
+{% load widget_tweaks %}    <!-- load widget_tweaks -->
+
+{% block title %}Post complaint{% endblock %}   <!-- tap title -->
+
+{% block body %}
+    {% include 'nav.html' %}    <!-- add navigation bar -->
+    <div class="container">
+        <form method="post" novalidate>
+            {% csrf_token %}
+            <div class='formGroup'>
+                <div class="head"><h5>&nbsp&nbspNew Complaint Form:</h5></div>
+                {% include 'form.html' %} <!-- add code in form.html -->
+                <button type="submit" href="{% url 'userHome' %}" class="btn btn-primary">Post</button>
+                <a class="btn btn-primary" href="{% url 'userHome' %}">Cancel</a> <!-- button for cancel -->
+            </div>
+        </form>
+    </div>
+{% endblock %}
